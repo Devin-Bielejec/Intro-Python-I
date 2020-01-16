@@ -20,26 +20,43 @@ from datetime import datetime
 
 
 def program():
-    userInput = input("Please enter the month, then the year:")
-    inputList = userInput.split(" ")
+    while True:
+        try:
+            userInput = input("Please enter the month (1-12), then the year:")
+        
+            inputList = userInput.split(" ")
 
-    if len(inputList) > 2:
-        print("Incorrect form, input should be [month] [year]")
-        return
+            m = int(inputList[0])
+            m = int(m)
+            
+            y = inputList[1]
+            y = int(y)
+            break
+        #For arguments not being integers
+        except ValueError as err:
+            #If no arguments are entered
+            if m == "":
+                m = datetime.today().month           
+                y = datetime.today().year
+                break
+            else:
+                print("Month's need to be as a number")
 
-    if userInput == "":
-        m = datetime.today().month
-        y = datetime.today().year
+        except IndexError as err:
+            #M is always available, sometime empty, so this is incase y is not
+            y = datetime.today().year
+            break
+        #In case of any errors I can't think of
+        except:
+            print("Incorrect form, input should be [month (1-12)] [year]. For example: '1 2019'")
+        
+    print(calendar.month(y, m))
 
-    if len(inputList) == 1:
-        m = inputList[0]
-        y = datetime.today().year
 
-    if len(inputList) == 2:
-        m = inputList[0]
-        y = inputList[1]
-
-    print(calendar.month(int(y), int(m)))
 
 
 program()
+
+
+#Value Error: "May etc"
+#Index Error: "Only one month"
